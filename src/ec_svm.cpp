@@ -71,6 +71,8 @@ void Ec::svm_exception (mword reason)
                 case Vtlb::GLA_GPA:
                     current->regs.vmcb->cr2 = cr2;
                     current->regs.vmcb->inj_control = static_cast<uint64>(err) << 32 | 0x80000b0e;
+		    ret_user_vmrun();
+		    break;
 
                 case Vtlb::SUCCESS:
                     ret_user_vmrun();

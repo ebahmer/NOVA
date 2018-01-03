@@ -49,6 +49,9 @@ class Kobject : public Mdb
         ALWAYS_INLINE
         inline Type type() const
         {
-            return EXPECT_TRUE (this) ? Type (objtype) : INVALID;
+		// This is the original code but gcc claims that this can NOT be NULL.
+		// So, we'll take a chance on it exploding.
+		// return EXPECT_TRUE (this) ? Type (objtype) : INVALID;
+		return Type(objtype);
         }
 };
