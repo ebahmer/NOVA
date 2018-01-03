@@ -40,11 +40,8 @@ class Acpi_table_rsdt : public Acpi_table
         }
 
     public:
-        union
-        {
-            uint32  rsdt[];
-            uint64  xsdt[];
-        };
+           uint32  rsdt[];
+           uint64  xsdt[];
 
         INIT
         void parse (Paddr, size_t) const;
