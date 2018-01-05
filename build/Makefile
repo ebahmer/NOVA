@@ -18,7 +18,7 @@
 # GNU General Public License version 2 for more details.
 #
 
-ARCH		?= x86_32
+ARCH		= x86_64
 CC		:= gcc
 ECHO		:= echo
 INSTALL		:= install
@@ -102,6 +102,7 @@ LFLAGS		:= --defsym=GIT_VER=0x$(call gitrv) --gc-sections --warn-common -static 
 $(TARGET):	$(OBJ)
 		$(call message,LNK,$@)
 		$(LD) $(LFLAGS) $^ -o $@
+		objcopy -I elf64-x86-64 -O elf32-i386  $@ $@.32bit
 
 .PHONY:		install
 .PHONY:		clean
