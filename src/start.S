@@ -101,7 +101,8 @@ __gdt_desc:             .word   __boot_gdt__ - __boot_gdt - 1
  */
 .code32
 
-__start_bsp:            mov     $(__start_bsp - __start_ap), %ecx
+__start_bsp:            
+			mov     $(__start_bsp - __start_ap), %ecx
                         mov     $__start_ap, %esi
                         mov     $0x1000, %edi
                         rep     movsb
@@ -143,7 +144,9 @@ __start_bsp:            mov     $(__start_bsp - __start_ap), %ecx
 .code64
 #endif
 
-__start_all:            INIT_STATE
+__start_all:            
+//1: jmp 1b
+			INIT_STATE
                         test    %REG(bx), %REG(bx)
                         je      2f
 

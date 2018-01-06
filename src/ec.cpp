@@ -160,6 +160,7 @@ void Ec::ret_user_sysexit()
     if (EXPECT_FALSE (hzd))
         handle_hazard (hzd, ret_user_sysexit);
 
+    trace (0, "ret_user_sysexit EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
     asm volatile ("lea %0," EXPAND (PREG(sp); LOAD_GPR RET_USER_HYP) : : "m" (current->regs) : "memory");
 
     UNREACHED;
@@ -172,6 +173,7 @@ void Ec::ret_user_iret()
     if (EXPECT_FALSE (hzd))
         handle_hazard (hzd, ret_user_iret);
 
+    trace (0, "ret_user_iret EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
     asm volatile ("lea %0," EXPAND (PREG(sp); LOAD_GPR LOAD_SEG RET_USER_EXC) : : "m" (current->regs) : "memory");
 
     UNREACHED;
@@ -196,6 +198,7 @@ void Ec::ret_user_vmresume()
     if (EXPECT_FALSE (get_cr2() != current->regs.cr2))
         set_cr2 (current->regs.cr2);
 
+    trace (0, "ret_user_vmresume EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
     asm volatile ("lea %0," EXPAND (PREG(sp); LOAD_GPR)
                   "vmresume;"
                   "vmlaunch;"
@@ -221,6 +224,7 @@ void Ec::ret_user_vmrun()
             current->regs.vtlb->flush (true);
     }
 
+    trace (0, "ret_user_vmrun EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
     asm volatile ("lea %0," EXPAND (PREG(sp); LOAD_GPR)
                   "clgi;"
                   "sti;"
@@ -295,6 +299,7 @@ void Ec::root_invoke()
     Space_obj::insert_root (Ec::current);
     Space_obj::insert_root (Sc::current);
 
+    trace (0, "ret_user_sysexit EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
     ret_user_sysexit();
 }
 

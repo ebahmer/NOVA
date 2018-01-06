@@ -62,21 +62,19 @@ enum {
 unsigned const trace_mask =
                             TRACE_CPU       |
                             TRACE_IOMMU     |
-#ifdef DEBUG
-//                            TRACE_APIC      |
-//                            TRACE_KEYB      |
+                            TRACE_APIC      |
+                            TRACE_KEYB      |
                             TRACE_VMX       |
                             TRACE_SVM       |
-//                            TRACE_ACPI      |
-//                            TRACE_MEMORY    |
-//                            TRACE_PCI       |
-//                            TRACE_SCHEDULE  |
-//                            TRACE_VTLB      |
-//                            TRACE_DEL       |
-//                            TRACE_REV       |
-//                            TRACE_RCU       |
-//                            TRACE_FPU       |
-//                            TRACE_SYSCALL   |
+                            TRACE_ACPI      |
+                            TRACE_MEMORY    |
+                            TRACE_PCI       |
+                            TRACE_SCHEDULE  |
+                            TRACE_VTLB      |
+                            TRACE_DEL       |
+                            TRACE_REV       |
+                            TRACE_RCU       |
+                            TRACE_FPU       |
+                            TRACE_SYSCALL   |
                             TRACE_ERROR     |
-#endif
                             0;
