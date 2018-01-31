@@ -19,7 +19,7 @@
 #
 
 ARCH		= x86_64
-CC		:= gcc
+CC		:= gcc-6
 ECHO		:= echo
 INSTALL		:= install
 LD		:= ld
