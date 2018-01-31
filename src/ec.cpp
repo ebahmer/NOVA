@@ -160,7 +160,8 @@ void Ec::ret_user_sysexit()
     if (EXPECT_FALSE (hzd))
         handle_hazard (hzd, ret_user_sysexit);
 
-    trace (0, "ret_user_sysexit EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
+    trace (0, "ret_user_sysexit EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.ARG_IP);
+    trace (0, "\tRSP: %#lx EIP:%#lx", current->regs.ARG_SP, current->regs.ARG_IP);
     asm volatile ("lea %0," EXPAND (PREG(sp); LOAD_GPR RET_USER_HYP) : : "m" (current->regs) : "memory");
 
     UNREACHED;
@@ -173,7 +174,10 @@ void Ec::ret_user_iret()
     if (EXPECT_FALSE (hzd))
         handle_hazard (hzd, ret_user_iret);
 
-    trace (0, "ret_user_iret EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
+    trace (0, "ret_user_iret EC:%p SC:%p CS:%#lx RSP:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rsp, current->regs.rip);
+    trace (0, "\tRAX:%#lx", current->regs.rax);
+    trace (0, "\tRBX:%#lx", current->regs.rbx);
+    trace (0, "\tRDX:%#lx\n", current->regs.rdx);
     asm volatile ("lea %0," EXPAND (PREG(sp); LOAD_GPR LOAD_SEG RET_USER_EXC) : : "m" (current->regs) : "memory");
 
     UNREACHED;
@@ -299,7 +303,7 @@ void Ec::root_invoke()
     Space_obj::insert_root (Ec::current);
     Space_obj::insert_root (Sc::current);
 
-    trace (0, "ret_user_sysexit EC:%p SC:%p CS:%#lx EIP:%#lx", current, Sc::current, current->regs.cs, current->regs.rip);
+    trace (0, "root_invode EIP:%#lx RSP %#lx", current->regs.ARG_IP, (USER_ADDR - PAGE_SIZE));
     ret_user_sysexit();
 }
 

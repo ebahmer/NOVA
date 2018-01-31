@@ -83,6 +83,8 @@ void Ec::send_msg()
     Exc_regs *r = &current->regs;
 
     Kobject *obj = Space_obj::lookup (current->evt + r->dst_portal).obj();
+    if (EXPECT_FALSE(! obj))
+	    die("obj is false!");
     if (EXPECT_FALSE (obj->type() != Kobject::PT))
         die ("PT not found");
 
